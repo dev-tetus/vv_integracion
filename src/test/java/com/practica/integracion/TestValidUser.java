@@ -155,6 +155,10 @@ public class TestValidUser {
 			} catch (SystemManagerException e) {
 				fail("Unexpected exception was thrown");
 			}
+			finally{
+				ordered.verify(authDAO).getAuthData(validUser.getId());
+				ordered.verify(genericDAO).deleteSomeData(validUser, remoteId);
+			}
 		}
 		@DisplayName("Should not delete remote")
 		@Test
@@ -170,6 +174,10 @@ public class TestValidUser {
 
 			} catch (SystemManagerException e) {
 				assertNotNull(e);
+			}
+			finally{
+				ordered.verify(authDAO).getAuthData(validUser.getId());
+				ordered.verify(genericDAO).deleteSomeData(validUser, remoteId);
 			}
 		}
 	}
